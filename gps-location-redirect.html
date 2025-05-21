@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location Based Redirect</title>
+  <script>
+    // Function to get the user's GPS location and redirect to appropriate Google Form
+    function getLocationAndRedirect() {
+      // Check if the browser supports geolocation
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lat = position.coords.latitude;
+          var lon = position.coords.longitude;
+
+          // Call function to determine location
+          redirectToForm(lat, lon);
+        }, function(error) {
+          alert('Unable to retrieve your location. Please try again later.');
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    // Function to determine the hub location based on lat/lon and redirect to Google Form
+    function redirectToForm(lat, lon) {
+      var location;
+
+      // Determine location based on latitude and longitude (approximate area)
+      if (lat >= 3.1160309646634916 && lat <= 3.1560309646634916 && lon >= 101.65201861625955 && lon <= 101.69201861625955) {
+        location = "CSL FM";
+      } else {
+        location = "Unknown";
+      }
+
+      // Redirect to pre-filled Google Form based on location
+      var formURL = getPrefilledFormURL(location);
+      if (formURL) {
+        window.location.href = formURL;  // Redirect to Google Form
+      } else {
+        alert('Unable to determine your location. Please select your hub manually.');
+      }
+    }
+
+    // Function to generate pre-filled Google Form URL based on location
+    function getPrefilledFormURL(location) {
+      var baseFormURL = "https://docs.google.com/forms/d/1yRGIcCos5DPe1J2N1pATVaYOSYkSNEbKBvo6knvM2NM/viewform";  // Replace FORM_ID with your actual form ID
+      var locationEntryID = "entry.729244782";  // Replace with actual entry ID for the location field
+
+      // Add location to pre-fill data based on the detected location
+      if (location === "CSL FM") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=North%20London";
+      } else {
+        return null;  // Return null if no location match
+      }
+    }
+
+    // Call the function when the page loads to attempt location detection
+    window.onload = getLocationAndRedirect;
+  </script>
+</head>
+<body>
+  <h1>Welcome to SPX Hub Page</h1>
+  <p>We are detecting your location to direct you to the right form. Please allow location access.</p>
+</body>
+</html>
