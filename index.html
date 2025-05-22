@@ -58,8 +58,14 @@
       // Add location to pre-fill data based on the detected location
       if (location === "CSL FM") {
         return baseFormURL + "?usp=pp_url&" + locationEntryID + "=CSL+FM";
+      } else if (location === "DDR SOC") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=DDR+SOC";
+      } else if (location === "U10 SOC") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=U10+SOC";
+      } else if (location === "PEN SOC") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=PEN+SOC";
       } else {
-        return null;  // Return null if no location match
+        return baseFormURL;  // Return null if no location match
       }
     }
 
