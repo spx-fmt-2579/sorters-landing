@@ -44,10 +44,11 @@
       // Redirect to pre-filled Google Form based on location
       var formURL = getPrefilledFormURL(location);
       if (formURL) {
-        window.location.href = formURL;  // Redirect to Google Form
+        alert('Redirecting to Google Forms...');  // Redirect to Google Form
       } else {
         alert('Unable to determine your location. Please select your hub manually.');
       }
+      window.location.href = formURL;  // Redirect to Google Form
     }
 
     // Function to generate pre-filled Google Form URL based on location
