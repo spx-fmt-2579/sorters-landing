@@ -57,7 +57,7 @@
     // Function to determine the hub location based on lat/lon and redirect to Google Form
     function redirectToForm(lat, lon) {
       var location;
-
+      const statusMessage = document.getElementById("status-message");
       // Determine location based on latitude and longitude (approximate area)
       if (lat >= 3.0953122157261937 && lat <= 3.1353122157261937 && lon >= 101.69081127916825 && lon <= 101.73081127916825) {
         location = "CSL FM"; // coordinates: 3.1153122157261937, 101.71081127916825
