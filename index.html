@@ -45,11 +45,11 @@
           redirectToForm(lat, lon);
         }, function(error) {
           statusMessage.textContent = "Location access denied. Redirecting...";
-          window.location.href = fallback_url;
+          //window.location.href = fallback_url;
         });
       } else {
         statusMessage.textContent = "Geolocation not supported. Redirecting...";
-        window.location.href = fallback_url;
+        //window.location.href = fallback_url;
       }
     }
 
