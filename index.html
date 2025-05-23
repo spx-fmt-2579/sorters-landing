@@ -3,25 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Location Based Redirect</title>
+  <title>Redirecting...</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #EE4D2D;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    img {
+      max-width: 70%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    #status-message {
+      font-size: 1.2em;
+    }
+  </style>
   <script>
     // Function to get the user's GPS location and redirect to appropriate Google Form
     function getLocationAndRedirect() {
+      const fallback_url = "https://docs.google.com/forms/d/1yRGIcCos5DPe1J2N1pATVaYOSYkSNEbKBvo6knvM2NM/viewform"
       // Check if the browser supports geolocation
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var lat = position.coords.latitude;
           var lon = position.coords.longitude;
-
+          
+          statusMessage.textContent = "Redirecting based on your location...";
           // Call function to determine location
           redirectToForm(lat, lon);
-          var formURL = getPrefilledFormURL(location);
         }, function(error) {
-          alert('Unable to retrieve your location. Please try again later.');
-          window.location.href = formURL;
+          statusMessage.textContent = "Location access denied. Redirecting...";
+          window.location.href = fallback_url;
         });
       } else {
-        alert("Geolocation is not supported by this browser.");
+        statusMessage.textContent = "Geolocation not supported. Redirecting...";
+        window.location.href = fallback_url;
       }
     }
 
@@ -46,17 +73,17 @@
       // Redirect to pre-filled Google Form based on location
       var formURL = getPrefilledFormURL(location);
       if (formURL) {
-        alert('Redirecting to Google Forms...');  // Redirect to Google Form
+        statusMessage.textContent = "Redirecting to Google Forms...";
       } else {
-        alert('Unable to determine your location. Please select your hub manually.');
+        statusMessage.textContent = "Unable to detect your location. Redirecting to Google Forms...";
       }
       window.location.href = formURL;  // Redirect to Google Form
     }
 
     // Function to generate pre-filled Google Form URL based on location
     function getPrefilledFormURL(location) {
-      var baseFormURL = "https://docs.google.com/forms/d/1yRGIcCos5DPe1J2N1pATVaYOSYkSNEbKBvo6knvM2NM/viewform";  // Replace FORM_ID with your actual form ID
-      var locationEntryID = "entry.729244782";  // Replace with actual entry ID for the location field
+      var baseFormURL = "https://docs.google.com/forms/d/1yRGIcCos5DPe1J2N1pATVaYOSYkSNEbKBvo6knvM2NM/viewform";  
+      var locationEntryID = "entry.729244782";
 
       // Add location to pre-fill data based on the detected location
       if (location === "CSL FM") {
@@ -77,8 +104,7 @@
   </script>
 </head>
 <body>
-  <img class="logo" src="https://iconlogovector.com/logo/spx-express-logo-png-ai-eps-cdr-pdf-svg" alt="SPX Express Logo" />
-  <h1>Welcome to SPX Hub Page</h1>
+  <img src="images/logo.png" alt="SPX Logo" />
   <p>We are detecting your location to direct you to the right form. Please allow location access.</p>
 </body>
 </html>
