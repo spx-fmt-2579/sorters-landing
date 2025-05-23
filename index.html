@@ -28,6 +28,7 @@
     #status-message {
       font-size: 1.2em;
     }
+
   </style>
   <script>
     // Function to get the user's GPS location and redirect to appropriate Google Form
@@ -95,7 +96,7 @@
       } else if (location === "PEN SOC") {
         return baseFormURL + "?usp=pp_url&" + locationEntryID + "=PEN+SOC";
       } else {
-        return baseFormURL;  // Return null if no location match
+        return baseFormURL;  // Return base url if no location match
       }
     }
 
@@ -105,6 +106,5 @@
 </head>
 <body>
   <img src="images/spxlogo.png" alt="SPX Logo" />
-  <p>We are detecting your location to direct you to the right form. Please allow location access.</p>
 </body>
 </html>
