@@ -33,6 +33,7 @@
   <script>
     // Function to get the user's GPS location and redirect to appropriate Google Form
     function getLocationAndRedirect() {
+      const statusMessage = document.getElementById("status-message");
       const fallback_url = "https://docs.google.com/forms/d/1yRGIcCos5DPe1J2N1pATVaYOSYkSNEbKBvo6knvM2NM/viewform"
       // Check if the browser supports geolocation
       if (navigator.geolocation) {
@@ -45,11 +46,11 @@
           redirectToForm(lat, lon);
         }, function(error) {
           statusMessage.textContent = "Location access denied. Redirecting...";
-          //window.location.href = fallback_url;
+          window.location.href = fallback_url;
         });
       } else {
         statusMessage.textContent = "Geolocation not supported. Redirecting...";
-        //window.location.href = fallback_url;
+        window.location.href = fallback_url;
       }
     }
 
