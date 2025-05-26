@@ -34,6 +34,7 @@
     // Function to get the user's GPS location and redirect to appropriate Google Form
     function getLocationAndRedirect() {
       const statusMessage = document.getElementById("status-message");
+      const delayTime = 3000
       const fallback_url = "https://docs.google.com/forms/d/1yRGIcCos5DPe1J2N1pATVaYOSYkSNEbKBvo6knvM2NM/viewform"
       // Check if the browser supports geolocation
       if (navigator.geolocation) {
@@ -46,11 +47,15 @@
           redirectToForm(lat, lon);
         }, function(error) {
           statusMessage.textContent = "Location access denied. Redirecting...";
-          window.location.href = fallback_url;
+          setTimeout(function() {
+            window.location.href = fallback_url; // Redirect to Google Form
+        }, delayTime);
         });
       } else {
         statusMessage.textContent = "Geolocation not supported. Redirecting...";
-        window.location.href = fallback_url;
+        setTimeout(function() {
+            window.location.href = fallback_url; // Redirect to Google Form
+        }, delayTime);
       }
     }
 
@@ -58,17 +63,25 @@
     function redirectToForm(lat, lon) {
       var location;
       const statusMessage = document.getElementById("status-message");
+      const delayTime = 3000
       // Determine location based on latitude and longitude (approximate area)
-      if (lat >= 3.0953122157261937 && lat <= 3.1353122157261937 && lon >= 101.69081127916825 && lon <= 101.73081127916825) {
+      if (lat >= 3.0853122157261937 && lat <= 3.1453122157261937 && lon >= 101.68081127916825 && lon <= 101.74081127916825) {
         location = "CSL FM"; // coordinates: 3.1153122157261937, 101.71081127916825
+      } else if (lat >= 3.0544607918991622 && lat <= 3.1144607918991622 && lon >= 101.43928883873262 && lon <= 101.49928883873262) {
+        location = "SCOM FM"; // coordinates: 3.0844607918991622, 101.46928883873262
       } else if (lat >= 2.9628265044867948 && lat <= 3.0028265044867948 && lon >= 101.33912230917234 && lon <= 101.37912230917234) {
         location = "DDR SOC"; // coordinates: 2.9828265044867948, 101.35912230917234
       } else if (lat >= 3.1359693909961046 && lat <= 3.1759693909961046 && lon >= 101.45516869479574 && lon <= 101.49516869479574) {
         location = "U10 SOC"; // coordinates: 3.1559693909961046, 101.47516869479574
       } else if (lat >= 5.317585582976454 && lat <= 5.357585582976454 && lon >= 100.40077025949847 && lon <= 100.44077025949847) {
         location = "PEN SOC"; // coordinates: 5.337585582976454, 100.42077025949847
-      }
-        else {
+      } else if (lat >= 4.612437445406592 && lat <= 4.672437445406592 && lon >= 101.08152352969377 && lon <= 101.14152352969377) {
+        location = "PRK SOC"; // coordinates: 4.642437445406592, 101.11152352969377
+      } else if (lat >= 2.6355379966921235 && lat <= 2.6955379966921235 && lon >= 101.809760038248 && lon <= 101.869760038248) {
+        location = "NS9 SOC"; // coordinates: 2.6655379966921235, 101.839760038248
+      } else if (lat >= 1.5509279613145533 && lat <= 1.6109279613145533 && lon >= 103.61002466665481 && lon <= 103.67002466665481) {
+        location = "JHB SOC"; // coordinates: 1.5809279613145533, 103.64002466665481
+      } else {
         location = "Unknown";
       }
 
@@ -79,7 +92,9 @@
       } else {
         statusMessage.textContent = "Unable to detect your location. Redirecting to Google Forms...";
       }
-      window.location.href = formURL;  // Redirect to Google Form
+      setTimeout(function() {
+            window.location.href = formURL; // Redirect to Google Form
+        }, delayTime);
     }
 
     // Function to generate pre-filled Google Form URL based on location
@@ -90,12 +105,20 @@
       // Add location to pre-fill data based on the detected location
       if (location === "CSL FM") {
         return baseFormURL + "?usp=pp_url&" + locationEntryID + "=CSL+FM";
+      } else if (location === "SCOM FM") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=SCOM+FM";
       } else if (location === "DDR SOC") {
         return baseFormURL + "?usp=pp_url&" + locationEntryID + "=DDR+SOC";
       } else if (location === "U10 SOC") {
         return baseFormURL + "?usp=pp_url&" + locationEntryID + "=U10+SOC";
       } else if (location === "PEN SOC") {
         return baseFormURL + "?usp=pp_url&" + locationEntryID + "=PEN+SOC";
+      } else if (location === "PRK SOC") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=PRK+SOC";
+      } else if (location === "NS9 SOC") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=NS9+SOC";
+      } else if (location === "JHB SOC") {
+        return baseFormURL + "?usp=pp_url&" + locationEntryID + "=JHB+SOC";
       } else {
         return baseFormURL;  // Return base url if no location match
       }
