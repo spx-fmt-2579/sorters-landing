@@ -20,13 +20,21 @@
     }
 
     img {
-      max-width: 70%;
+      max-width: 90%;
       height: auto;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     #status-message {
-      font-size: 1.2em;
+      font-family: 'Open Sans', Arial, sans-serif;
+      font-size: 1.3em;
+      font-style: italic;
+      font-weight: 700;
+      color: #FFBB00;
+      margin: 0 auto;
+      max-width: 90%;
+      text-align: center;
+      line-height: 1.2;
     }
 
   </style>
@@ -47,15 +55,11 @@
           redirectToForm(lat, lon);
         }, function(error) {
           statusMessage.textContent = "Location access denied. Redirecting...";
-          setTimeout(function() {
-            window.location.href = fallback_url; // Redirect to Google Form
-        }, delayTime);
+          countdownAndRedirect(fallback_url);
         });
       } else {
         statusMessage.textContent = "Geolocation not supported. Redirecting...";
-        setTimeout(function() {
-            window.location.href = fallback_url; // Redirect to Google Form
-        }, delayTime);
+        countdownAndRedirect(fallback_url);
       }
     }
 
@@ -92,9 +96,7 @@
       } else {
         statusMessage.textContent = "Unable to detect your location. Redirecting to Google Forms...";
       }
-      setTimeout(function() {
-            window.location.href = formURL; // Redirect to Google Form
-        }, delayTime);
+      countdownAndRedirect(form_url);
     }
 
     // Function to generate pre-filled Google Form URL based on location
@@ -124,12 +126,29 @@
       }
     }
 
+    function countdownAndRedirect(url) {
+      const statusMessage = document.getElementById("status-message");
+      let count = 3;
+      statusMessage.textContent = `Redirecting in ${count}`;
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          statusMessage.textContent = `Redirecting in ${count}`;
+        } else {
+          clearInterval(interval);
+          statusMessage.textContent = "Redirecting...";
+          window.location.href = url;
+        }
+      }, 1000);
+    }
+
     // Call the function when the page loads to attempt location detection
     window.onload = getLocationAndRedirect;
   </script>
 </head>
 <body>
   <img src="images/spxlogo.png" alt="SPX Logo" />
-  <p id="status-message">Welcome to SPX Express Hubs</p>
+  <p id="status-message">Welcome to SPX Express</p>
+  <div id="countdown"></div>
 </body>
 </html>
